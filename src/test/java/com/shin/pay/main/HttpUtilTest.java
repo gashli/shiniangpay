@@ -29,4 +29,8 @@ public class HttpUtilTest extends BaseTest {
         resultMap.put("list","sh601006");
         return resultMap;
     }
+
+    private void TestA(){
+        System.out.println("test");
+    }
 }
