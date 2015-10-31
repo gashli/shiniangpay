@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+       <bean id="gateWayServiceFactory" class="com.shin.pay.service.impl.PayModelServiceFactoryImpl">
+              <property name="payModelServiceMap">
+                     <map>
+                            <entry key="BANK">
+                                   <ref local="bankCardModelService" />
+                            </entry>
+                            <entry key="WEIXIN">
+                                   <ref local="weiXinModelService" />
+                            </entry>
+                            <entry key="ALIPAY">
+                                   <ref local="aliPayModelService" />
+                            </entry>
+                     </map>
+              </property>
+       </bean>
+
+       <bean id="bankCardModelService" class="com.shin.pay.service.impl.BankCardModelServiceImpl"/>
+
+       <bean id="weiXinModelService" class="com.shin.pay.service.impl.WeiXinModelServiceImpl"/>
+
+       <bean id="aliPayModelService" class="com.shin.pay.service.impl.AliPayModelServiceImpl"/>
+</beans>
