@@ -33,4 +33,8 @@ public class HttpUtilTest extends BaseTest {
     private void TestA(){
         System.out.println("test");
     }
+    
+    private void TestB(){
+        System.out.println("testB")
+    }
 }
