@@ -39,7 +39,6 @@ public class CashierPayController extends BaseCashierController {
 
         }
 
-
         //6、支付重试
 
         //7、支付后处理

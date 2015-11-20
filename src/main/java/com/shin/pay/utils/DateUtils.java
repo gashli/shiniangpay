@@ -759,7 +759,7 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils  {
     public static boolean isOverIntervalLimit(Date startDate,Date endDate,int interval,int dateUnit){
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
-        cal.add(dateUnit, interval*(-1));
+        cal.add(dateUnit, interval * (-1));
         Date curDate = getDayStart(cal.getTime());
         if(getDayStart(startDate).compareTo(curDate) < 0 || getDayStart(endDate).compareTo(curDate) < 0){
             return true;
@@ -813,6 +813,23 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils  {
             return false;
         }
         return isOverIntervalLimit(startDate, endDate, interval);
+    }
+
+    /**
+     * 按照参数format的格式，日期转字符串
+     *
+     * @param date
+     * @param format
+     * @return
+     */
+    public static String date2Str(Date date, String format) {
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            sdf.setLenient(false);
+            return sdf.format(date);
+        } else {
+            return "";
+        }
     }
 
 }
