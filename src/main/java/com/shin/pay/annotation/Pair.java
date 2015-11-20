@@ -18,22 +18,17 @@ public @interface Pair {
     /**
      * 对应的字典字段名称，如存userName的字典表，其表的列名为name
      * */
-    public String dicFieldName();
+    public String dicFieldName() default "";
 
     /**
-     * 映射字段类型，如userName为enum
+     * 映射字段类型(反射中，参数类型)
      * */
     public Class<? extends Object>[] paramType() default {String.class};
 
     /**
-     * 存到数据库时，字段类型，如将enum转换为String
-     * */
-    public Class<? extends Object>[] targetType() default {String.class};
-
-    /**
      * 映射目标字段，如将userName映射到userId
      * */
-    public String targetFieldName();
+    public String targetFieldName() default "";
 
 
 

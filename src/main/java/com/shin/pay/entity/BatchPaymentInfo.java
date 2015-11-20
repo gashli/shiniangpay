@@ -1,5 +1,11 @@
 package com.shin.pay.entity;
 
+import com.shin.pay.annotation.ArithmeticEnum;
+import com.shin.pay.annotation.Handler;
+import com.shin.pay.annotation.Pair;
+import com.shin.pay.annotation.Table;
+import com.shin.pay.service.DictionaryService;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -7,8 +13,11 @@ import java.util.Date;
  * @Author gaoshiliang
  * @Date 15/10/22.
  */
-public class BatchPaymentInfo {
-    private Long id;
+@Handler(pairs = {@Pair(fieldName = "busiTypeId", dicFieldName = DictionaryService.BUSITYPEID),
+        @Pair(fieldName = "merchantCode", dicFieldName = DictionaryService.MERCHANTCODE)},
+        table = @Table(prefix = "pay",column = "userId",arithmetic = ArithmeticEnum.MODE,count = 3))
+public class BatchPaymentInfo extends Entity{
+    private Long userId;
 
     private Long batchOrderId;
 
@@ -53,12 +62,12 @@ public class BatchPaymentInfo {
     private String paySequenceNo;
 
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getBatchOrderId() {
@@ -232,7 +241,7 @@ public class BatchPaymentInfo {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("BatchPaymentInfo{");
-        sb.append("id=").append(id);
+        sb.append("userId=").append(userId);
         sb.append(", batchOrderId=").append(batchOrderId);
         sb.append(", batchOrderNo='").append(batchOrderNo).append('\'');
         sb.append(", merchantCode='").append(merchantCode).append('\'');

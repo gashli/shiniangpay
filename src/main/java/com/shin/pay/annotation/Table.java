@@ -13,11 +13,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Table {
 
-    public String prefix();
+    public String prefix() default "";
 
-    public String column();
+    public String column() default "";
 
-    public ArithmeticEnum arithmetic();
+    public ArithmeticEnum arithmetic() default ArithmeticEnum.MODE;
 
-    public int count();
+    public int count() default 1;
 }
