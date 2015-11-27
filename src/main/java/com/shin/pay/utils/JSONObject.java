@@ -65,9 +65,6 @@ import java.util.*;
  * well as by <code>,</code> <small>(comma)</small>.</li>
  * <li>Numbers may have the <code>0x-</code> <small>(hex)</small> prefix.</li>
  * </ul>
- *
- * @author JSON.org
- * @version 2011-04-05
  */
 public class JSONObject {
 

@@ -30,6 +30,11 @@ public @interface Pair {
      * */
     public String targetFieldName() default "";
 
+    /**
+     * 是否将装换后的字段映射到自己
+     * */
+    public boolean isToSelf() default false;
+
 
 
 

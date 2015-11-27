@@ -2,28 +2,98 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-       <context:property-placeholder location="classpath*:db.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath*:db.properties,redis.properties" ignore-unresolvable="true"/>
 
-       <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-              <property name="driverClassName" value="${database.driverClassName}" />
-              <property name="url" value="${database.url}" />
-              <property name="username" value="${database.username}" />
-              <property name="password" value="${database.password}" />
-              <property name="maxActive"><value>200</value></property>
-              <property name="initialSize"><value>5</value></property>
-              <property name="maxWait"><value>30000</value></property>        <!-- 超时等待时间  以毫秒为单位 -->
-              <property name="maxIdle"><value>20</value></property>            <!-- 最大空闲连接 -->
-              <property name="minIdle"><value>5</value></property>             <!-- 最小空闲连接 -->
-              <property name="removeAbandoned"><value>true</value></property>  <!-- 是否自动回收超时连接 -->
-              <property name="removeAbandonedTimeout"><value>30</value></property>  <!-- 超时时间(以秒数为单位) -->
-              <property name="testWhileIdle"><value>true</value></property>    <!-- 打开检查,用异步线程evict进行检查 -->
-              <property name="testOnBorrow"><value>true</value></property>
-              <property name="testOnReturn"><value>false</value></property>
-              <property name="validationQuery"><value>select 1</value></property>
-              <property name="numTestsPerEvictionRun"><value>20</value></property>
-              <property name="minEvictableIdleTimeMillis"><value>1800000</value></property>
-       </bean>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${database.driverClassName}"/>
+        <property name="url" value="${database.url}"/>
+        <property name="username" value="${database.username}"/>
+        <property name="password" value="${database.password}"/>
+        <property name="maxActive">
+            <value>200</value>
+        </property>
+        <property name="initialSize">
+            <value>5</value>
+        </property>
+        <property name="maxWait">
+            <value>30000</value>
+        </property>
+        <!-- 超时等待时间  以毫秒为单位 -->
+        <property name="maxIdle">
+            <value>20</value>
+        </property>
+        <!-- 最大空闲连接 -->
+        <property name="minIdle">
+            <value>5</value>
+        </property>
+        <!-- 最小空闲连接 -->
+        <property name="removeAbandoned">
+            <value>true</value>
+        </property>
+        <!-- 是否自动回收超时连接 -->
+        <property name="removeAbandonedTimeout">
+            <value>30</value>
+        </property>
+        <!-- 超时时间(以秒数为单位) -->
+        <property name="testWhileIdle">
+            <value>true</value>
+        </property>
+        <!-- 打开检查,用异步线程evict进行检查 -->
+        <property name="testOnBorrow">
+            <value>true</value>
+        </property>
+        <property name="testOnReturn">
+            <value>false</value>
+        </property>
+        <property name="validationQuery">
+            <value>select 1</value>
+        </property>
+        <property name="numTestsPerEvictionRun">
+            <value>20</value>
+        </property>
+        <property name="minEvictableIdleTimeMillis">
+            <value>1800000</value>
+        </property>
+    </bean>
+
+
+    <!--redis-->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxTotal" value="${redis.maxActive}"/>
+        <property name="maxWaitMillis" value="${redis.maxWait}"/>
+        <property name="testOnBorrow" value="false"/>
+    </bean>
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${redis.host}"/>
+        <property name="port" value="${redis.port}"/>
+        <property name="poolConfig" ref="poolConfig"/>
+    </bean>
+    <bean id="jedisShardInfo_a" class="redis.clients.jedis.JedisShardInfo">
+        <constructor-arg index="0" value="${redis_a.ip}"/>
+        <constructor-arg index="1" value="${redis.port}"/>
+    </bean>
+    <bean id="jedisShardInfo_b" class="redis.clients.jedis.JedisShardInfo">
+        <constructor-arg index="0" value="${redis_b.ip}"/>
+        <constructor-arg index="1" value="${redis.port}"/>
+    </bean>
+    <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
+        <constructor-arg index="0" ref="poolConfig"/>
+        <constructor-arg index="1">
+            <list>
+                <ref bean="jedisShardInfo_a"/>
+                <!--<ref bean="jedisShardInfo_b"/>-->
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="redismanage" class="com.shin.pay.redis.RedisCacheManger">
+        <property name="pool" ref="shardedJedisPool"/>
+    </bean>
+
 
 </beans>

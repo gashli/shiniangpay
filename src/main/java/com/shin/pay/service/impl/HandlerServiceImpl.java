@@ -8,6 +8,7 @@ import com.shin.pay.utils.ReflectUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @author shiliang.gao
  * @since 2015-11-20
  */
+@Service
 public class HandlerServiceImpl implements HandlerService {
     private static final Logger logger = LoggerFactory.getLogger(HandlerServiceImpl.class);
 
@@ -50,12 +52,14 @@ public class HandlerServiceImpl implements HandlerService {
     }
 
     private void convert(Pair pair, Object object) {
+        //得到字典中，对应字段需要被转换成的字段值
         Object[] objects = getDescValue(pair, object);
         if (null == objects) {
             return;
         }
+        //如果当前字段与字典中的查出的字段不一样，则执行set方法
         if (getTargetName(pair.fieldName(), object, objects)) {
-            ReflectUtil.executeSetterMethodByField(object, pair.targetFieldName(), objects, pair.paramType());
+            ReflectUtil.executeSetterMethodByField(object,pair.isToSelf()?pair.fieldName():pair.targetFieldName(), objects, pair.paramType());
         } else {
             return;
         }
@@ -65,6 +69,8 @@ public class HandlerServiceImpl implements HandlerService {
         try {
             PropertyDescriptor pd = new PropertyDescriptor(name, object.getClass());
             Method getMethod = pd.getReadMethod();
+
+            //得到当前字段值，并将其与字典中获取的值进行比较
             String temp = (String) getMethod.invoke(object);
             if (!temp.equals(objects[0]))
                 return true;
@@ -113,7 +119,7 @@ public class HandlerServiceImpl implements HandlerService {
             logger.info("Handler is null.ClassName:" + object.getClass().getName());
             return;
         }
-        caches.put(object.getClass().getName(), handler.pair());
+        caches.put(object.getClass().getName(), handler.pairs());
     }
 
 }

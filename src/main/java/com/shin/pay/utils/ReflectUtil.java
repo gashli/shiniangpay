@@ -52,12 +52,12 @@ public class ReflectUtil {
     public static Method getMethod(Object object, String methodName, Class[] paramType) {
         if (paramType == null) {
             paramType = new Class[ZERO];
-            Method[] methods = object.getClass().getMethods();
-            for (int index = 0; index < methods.length; index++) {
-                Method method = methods[index];
-                if (methodNameIsEquals(method, methodName) && methodParamTypeIsEquals(method, paramType)) {
-                    return method;
-                }
+        }
+        Method[] methods = object.getClass().getMethods();
+        for (int index = 0; index < methods.length; index++) {
+            Method method = methods[index];
+            if (methodNameIsEquals(method, methodName) && methodParamTypeIsEquals(method, paramType)) {
+                return method;
             }
         }
         return null;
@@ -76,21 +76,20 @@ public class ReflectUtil {
 
     /**
      * 执行set方法
-     * */
-    public static Object executeSetterMethodByField(Object object,String fieldName,Object[] paramValue,Class[] paramType){
-        Preconditions.checkNotNull(object,"arguments object");
-        Preconditions.checkNotNull(fieldName,"arguments fieldName");
-        String methodName = getMethodName(fieldName,SETTER_METHOD_PREFIX);
-        return invokeMethod(object,methodName,paramValue,paramType);
+     */
+    public static Object executeSetterMethodByField(Object object, String fieldName, Object[] paramValue, Class[] paramType) {
+        Preconditions.checkNotNull(object, "arguments object");
+        Preconditions.checkNotNull(fieldName, "arguments fieldName");
+        String methodName = getMethodName(fieldName, SETTER_METHOD_PREFIX);
+        return invokeMethod(object, methodName, paramValue, paramType);
     }
-
 
 
     private static Object executeGetterMehtodByField(Object object, String fieldName, Class[] paramType, Object[] paramValue) {
         Preconditions.checkNotNull(object, "arguments object");
         Preconditions.checkNotNull(fieldName, "arguments fieldName");
         String methodName = getMethodName(fieldName, GETTER_METHOD_PREFIX);
-        return invokeMethod(object,methodName,paramValue,paramType);
+        return invokeMethod(object, methodName, paramValue, paramType);
     }
 
     private static String getMethodName(String fieldName, String methodPrefix) {

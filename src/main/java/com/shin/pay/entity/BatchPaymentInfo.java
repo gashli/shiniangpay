@@ -13,8 +13,8 @@ import java.util.Date;
  * @Author gaoshiliang
  * @Date 15/10/22.
  */
-@Handler(pairs = {@Pair(fieldName = "busiTypeId", dicFieldName = DictionaryService.BUSITYPEID),
-        @Pair(fieldName = "merchantCode", dicFieldName = DictionaryService.MERCHANTCODE)},
+@Handler(pairs = {@Pair(fieldName = "busiTypeId", dicFieldName = DictionaryService.BUSITYPEID,isToSelf = true),
+        @Pair(fieldName = "merchantCode", dicFieldName = DictionaryService.MERCHANTCODE,isToSelf = false,targetFieldName ="merchantName")},
         table = @Table(prefix = "pay",column = "userId",arithmetic = ArithmeticEnum.MODE,count = 3))
 public class BatchPaymentInfo extends Entity{
     private Long userId;
@@ -24,6 +24,8 @@ public class BatchPaymentInfo extends Entity{
     private String batchOrderNo;
 
     private String merchantCode;
+
+    private String merchantName;
 
     private String busiTypeId;
 
@@ -238,6 +240,14 @@ public class BatchPaymentInfo extends Entity{
         this.paySequenceNo = paySequenceNo;
     }
 
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("BatchPaymentInfo{");
@@ -245,6 +255,7 @@ public class BatchPaymentInfo extends Entity{
         sb.append(", batchOrderId=").append(batchOrderId);
         sb.append(", batchOrderNo='").append(batchOrderNo).append('\'');
         sb.append(", merchantCode='").append(merchantCode).append('\'');
+        sb.append(", merchantName='").append(merchantName).append('\'');
         sb.append(", busiTypeId='").append(busiTypeId).append('\'');
         sb.append(", batchAmount=").append(batchAmount);
         sb.append(", reduceAmount=").append(reduceAmount);

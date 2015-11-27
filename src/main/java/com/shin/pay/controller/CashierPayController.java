@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+
 /**
  * @Author gaoshiliang
  * @Date 15/10/23.
@@ -22,7 +23,7 @@ public class CashierPayController extends BaseCashierController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //1、获取并验证参数
-        Map<String,String> paramsMap = getParameterMap(request);
+        Map<String, String> paramsMap = getParameterMap(request);
 
         //2、封装接口请求参数
         BatchPaymentRequestDTO requestDTO = new BatchPaymentRequestDTO();

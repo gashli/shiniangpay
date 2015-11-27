@@ -8,7 +8,7 @@ public interface DictionaryService {
 
     String CHARACTERNAME = "characterName";
 
-    String BUSITYPEID = "busiTypeId";
+    String BUSITYPEID = "busiType";
 
     String MERCHANTCODE = "merchantCode";
 
