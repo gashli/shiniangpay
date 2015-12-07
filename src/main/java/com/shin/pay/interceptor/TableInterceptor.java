@@ -1,6 +1,7 @@
 package com.shin.pay.interceptor;
 
 import com.shin.pay.entity.Entity;
+import com.shin.pay.utils.TableNameUtil;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.cache.CacheKey;

@@ -1,9 +1,8 @@
-package com.shin.pay.service.impl;
+package com.shin.pay.utils;
 
 import com.google.common.base.Strings;
 import com.shin.pay.annotation.ArithmeticEnum;
 import com.shin.pay.annotation.Table;
-import com.shin.pay.utils.Constants;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +14,8 @@ import java.lang.reflect.Method;
  * @author shiliang.gao
  * @since 2015-12-07
  */
-public class TableNameServiceImpl {
-    private static final Logger logger = LoggerFactory.getLogger(TableNameServiceImpl.class);
+public class TableNameUtil {
+    private static final Logger logger = LoggerFactory.getLogger(TableNameUtil.class);
 
     /**
      * 通过反射得到注解计算出表名
